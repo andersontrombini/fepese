@@ -2058,9 +2058,14 @@ module.exports = {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _inscricao_inscricao__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./inscricao/inscricao */ "./resources/js/inscricao/inscricao.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+window.Inscricao = new _inscricao_inscricao__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 /***/ }),
 
@@ -2097,6 +2102,166 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/inscricao/inscricao.js":
+/*!*********************************************!*\
+  !*** ./resources/js/inscricao/inscricao.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Inscricao)
+/* harmony export */ });
+/* harmony import */ var _validations__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../validations */ "./resources/js/validations.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+var Inscricao = /*#__PURE__*/function () {
+  function Inscricao() {
+    _classCallCheck(this, Inscricao);
+  }
+  _createClass(Inscricao, [{
+    key: "init",
+    value: function init() {
+      this.mask();
+      this.validator = new _validations__WEBPACK_IMPORTED_MODULE_0__["default"]();
+      // this.iniciaTabela();
+      this.bind();
+    }
+  }, {
+    key: "bind",
+    value: function bind() {
+      var self = this;
+      //Gravar inscrição do candidato
+      $(document).on('submit', "#formulario_inscricao", function (ev) {
+        ev.preventDefault();
+        var values = $(ev.currentTarget).serialize();
+        $.ajax({
+          url: "/api/pessoa_fisica",
+          type: "POST",
+          data: values,
+          success: function success(data) {
+            $.ajax({
+              url: "/api/inscricao",
+              type: "POST",
+              data: {
+                pessoa_fisica_id: data.pessoa.id,
+                cargo: data.cargo,
+                situacao: 'enviado'
+              },
+              success: function success(response) {
+                window.location.href = "/api/pessoa_fisica/" + data.pessoa.id;
+              },
+              error: function error(response) {
+                var erros = response.responseJSON.errors;
+                self.validator.validaRetornoApi(erros);
+              }
+            });
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            self.validator.validaRetornoApi(erros);
+          }
+        });
+      });
+
+      //insere opções no select de cidades de acordo com estado
+      $(document).on("change", "#estado_id", function (ev) {
+        var estados = $(ev.currentTarget).find(":selected").data("estados");
+        $("#cidade_id").empty();
+        $("#cidade_id").prop('disabled', false);
+        $("#cidade_id").append("<option value=\"\" selected disabled>Selecione...</option>");
+        $.each(estados.cidades, function (index, value) {
+          $("#cidade_id").append("<option value=\"".concat(value.cidade_id, "\">").concat(value.nome, "</option>"));
+        });
+      });
+
+      //campo nome iniciar palavras com letra maiúscula
+      $(document).on("keyup", ".teste", function () {
+        self.mask();
+        var formatarValor = self.iniciaisMaiusculas($('#nome').val());
+        $('#nome').val(formatarValor);
+      });
+    }
+  }, {
+    key: "iniciaisMaiusculas",
+    value: function iniciaisMaiusculas(str) {
+      var palavras = str.toLowerCase().split(' ');
+      for (var i = 0; i < palavras.length; i++) {
+        palavras[i] = palavras[i].charAt(0).toUpperCase() + palavras[i].slice(1);
+      }
+      return palavras.join(' ');
+    }
+  }, {
+    key: "mask",
+    value: function mask() {
+      $("#nome").mask("#", {
+        maxlength: false,
+        translation: {
+          '#': {
+            pattern: /[A-zÀ-ÿ\s]/,
+            recursive: true
+          }
+        }
+      });
+      $('#cpf').mask('000.000.000-00', {
+        reverse: true
+      });
+    }
+
+    // iniciaTabela(){
+    //     let table = new DataTable('.tabela_estados');
+    // }
+  }]);
+  return Inscricao;
+}();
+
+
+/***/ }),
+
+/***/ "./resources/js/validations.js":
+/*!*************************************!*\
+  !*** ./resources/js/validations.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Validations)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var Validations = /*#__PURE__*/function () {
+  function Validations() {
+    _classCallCheck(this, Validations);
+  }
+  _createClass(Validations, [{
+    key: "validaRetornoApi",
+    value: function validaRetornoApi(values) {
+      $(".clear").addClass("d-none");
+      $.each(values, function (index, valor) {
+        $("." + index + "-feedback").removeClass("d-none");
+        $("." + index + "-feedback").html(valor);
+        $("#" + index).focus();
+      });
+    }
+  }]);
+  return Validations;
+}();
+
 
 /***/ }),
 
@@ -19592,6 +19757,18 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
 /******/ 		};
 /******/ 	})();
 /******/ 	
