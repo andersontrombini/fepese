@@ -13,13 +13,21 @@ export default class Inscricao {
         //Gravar inscrição do candidato
         $(document).on('submit', "#formulario_inscricao", (ev) => {
             ev.preventDefault();
-            let values = $(ev.currentTarget).serialize();
+            let cpf = $("#cpf").val();
+            let values = {
+                nome: $("#nome").val(),
+                cpf: cpf.replace(/[.-]/g, ''),
+                endereco: $('#endereco').val(),
+                estado_id: $('#estado_id').val(),
+                cidade_id: $('#cidade_id').val(),
+                cargo: $('#cargo').val(),
+            }
 
             $.ajax({
                 url: "/api/pessoa_fisica",
                 type: "POST",
                 data: values,
-                success: function (data) {
+                success: function (response) {
                     $.ajax({
                         url: "/api/inscricao",
                         type: "POST",
@@ -29,7 +37,7 @@ export default class Inscricao {
                             situacao: 'enviado',
                         },
                         success: function (response) {
-                            window.location.href = "/api/pessoa_fisica/" + data.pessoa.id;
+                            window.location.href = "/cadastro/" + data.pessoa.id;
 
                         },
                         error: function (response) {
@@ -86,7 +94,7 @@ export default class Inscricao {
         $('#cpf').mask('000.000.000-00', { reverse: true });
     }
 
-    // iniciaTabela(){
-    //     let table = new DataTable('.tabela_estados');
-    // }
+    iniciaTabela(){
+        $('#tabela_inscricoes').dataTable();
+    }
 }

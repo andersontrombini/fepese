@@ -65,17 +65,21 @@
                 <div class="col-4">
                     <label for="cidade_id" class="form-label">Cidade</label>
                     <select disabled class="form-control" name="cidade_id" id="cidade_id">
-                        <option value="" selecte disabled>Selecione..</option>
-                        <option value="1">São Paulo</option>
-                        <option value="2">Rio de Janeiro</option>
+                        @foreach ($cidades as $cidade)
+                            <option value="{{ $cidade->id }}" {!! isset($pessoa) ? ($pessoa->cidade->id == $cidade->id ? 'selected' : '') : '' !!}>
+                                {{ $cidade->nome }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-2">
                     <label for="estado_id" class="form-label">Estado</label>
-                    <select disabled class="form-control" name="estado_id" id="estado_id">
-                        <option value="" selecte disabled>Selecione..</option>
-                        <option value="1">São Paulo</option>
-                        <option value="2">Rio de Janeiro</option>
+                    <select disabled class="form-control" name="estado_id" id="cidaestado_idde_id">
+                        @foreach ($estados as $estado)
+                            <option value="{{ $estado->id }}" {!! isset($pessoa) ? ($pessoa->estado->id == $estado->id ? 'selected' : '') : '' !!}>
+                                {{ $estado->nome }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -89,7 +93,7 @@
             <hr>
             <div class="row text-end no-print">
                 <div class="col text-end">
-                    <a href="/concurso">Retornar para inscrição</a>
+                    <a href="/cadastro">Retornar para inscrição</a>
                 </div>
             </div>
         </form>

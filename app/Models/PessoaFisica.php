@@ -32,5 +32,17 @@ class PessoaFisica extends Model
         $pessoa = self::loadPessoaFisicaById($pessoa);
     	return $pessoa->delete();
     }
+
+	public function inscricao(){
+		return $this->belongsTo(Inscricao::class, 'id', 'pessoa_fisica_id');
+	}
+
+	public function cidade(){
+		return $this->belongsTo(Cidade::class, 'cidade_id', 'cidade_id');
+	}
+
+	public function estado(){
+		return $this->belongsTo(Estado::class, 'estado_id', 'estado_id');
+	}
   
 }

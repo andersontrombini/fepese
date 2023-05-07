@@ -12,7 +12,7 @@
             <h4>Inscrições ativas</h4>
         </div>
         <hr>
-        @if (isset($inscricoes))
+        @if (count($inscricoes) > 0)
             <table class="table table table-striped tabela_inscricoes">
                 <thead>
                     <tr>
@@ -36,7 +36,7 @@
         @else
             <div class="text-center">
                 <span>Nenhuma inscrição realizada! </span>
-                <a href="/concurso">Clique aqui</a> para novo cadastro
+                <a href="/cadastro">Clique aqui</a> para novo cadastro
             </div>
         @endif
     </div>

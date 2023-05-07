@@ -2143,12 +2143,20 @@ var Inscricao = /*#__PURE__*/function () {
       //Gravar inscrição do candidato
       $(document).on('submit', "#formulario_inscricao", function (ev) {
         ev.preventDefault();
-        var values = $(ev.currentTarget).serialize();
+        var cpf = $("#cpf").val();
+        var values = {
+          nome: $("#nome").val(),
+          cpf: cpf.replace(/[.-]/g, ''),
+          endereco: $('#endereco').val(),
+          estado_id: $('#estado_id').val(),
+          cidade_id: $('#cidade_id').val(),
+          cargo: $('#cargo').val()
+        };
         $.ajax({
           url: "/api/pessoa_fisica",
           type: "POST",
           data: values,
-          success: function success(data) {
+          success: function success(response) {
             $.ajax({
               url: "/api/inscricao",
               type: "POST",
@@ -2158,7 +2166,7 @@ var Inscricao = /*#__PURE__*/function () {
                 situacao: 'enviado'
               },
               success: function success(response) {
-                window.location.href = "/api/pessoa_fisica/" + data.pessoa.id;
+                window.location.href = "/cadastro/" + data.pessoa.id;
               },
               error: function error(response) {
                 var erros = response.responseJSON.errors;
@@ -2216,10 +2224,11 @@ var Inscricao = /*#__PURE__*/function () {
         reverse: true
       });
     }
-
-    // iniciaTabela(){
-    //     let table = new DataTable('.tabela_estados');
-    // }
+  }, {
+    key: "iniciaTabela",
+    value: function iniciaTabela() {
+      $('#tabela_inscricoes').dataTable();
+    }
   }]);
   return Inscricao;
 }();

@@ -30,4 +30,9 @@ class Inscricao extends Model
         $inscricao = self::loadInscricaoById($inscricao);
     	return $inscricao->delete();
     }
+	
+	public function pessoa(){
+		return $this->belongsTo(PessoaFisica::class, 'pessoa_fisica_id', 'id')
+			->with(['cidade', 'estado']);
+	}
 }

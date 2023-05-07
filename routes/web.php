@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CadastroController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [CadastroController::class, 'index']);
+Route::get('/cadastro', [CadastroController::class, 'create']);
+Route::get('/cadastro/{id}', [CadastroController::class, 'show']);

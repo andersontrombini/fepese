@@ -19,7 +19,7 @@ class PessoaFisicaController extends Controller
             $request,
             [
                 'nome' => 'required',
-			    'cpf' => 'required',
+			    'cpf' => 'required|unique:pessoa_fisica,cpf',
 			    'endereco' => 'required',
 			    'cidade_id' => 'required',
 			    'estado_id' => 'required',
@@ -32,8 +32,13 @@ class PessoaFisicaController extends Controller
 	    $pessoa->endereco = $request->endereco;
 	    $pessoa->cidade_id = $request->cidade_id;
 	    $pessoa->estado_id = $request->estado_id;
+        $cargo = $request->cargo;
 	    
-        return json_encode(PessoaFisica::createPessoaFisica($pessoa));
+        PessoaFisica::createPessoaFisica($pessoa);
+        return response()->json([
+            'pessoa' => $pessoa,
+            'cargo' => $cargo
+        ]);
     }
     
     public function update(Request $request)
