@@ -45,12 +45,12 @@ body {
   font-weight: bolder !important;
 }
 
-.tabela_inscricoes{
-  background-color: rgb(218, 207, 219);
-}
 
 .dataTables_wrapper{
-  background-color: rgb(218, 207, 219);
+  background-color: rgb(226, 222, 226);
   padding: 10px;
-  border: black 1px solid;
+}
+
+.form-label{
+  font-weight: bolder;
 }

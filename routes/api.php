@@ -28,5 +28,8 @@ $router->group(
 		$router->post('/inscricao', '\App\Http\Controllers\InscricaoController@store');
 		$router->patch('/inscricao', '\App\Http\Controllers\InscricaoController@update');
 		$router->patch('/inscricao/{id}', '\App\Http\Controllers\InscricaoController@destroy');
+
+		$router->get('/estados', '\App\Http\Controllers\EstadoController@listar');
+		$router->get('/cidades/{id}', '\App\Http\Controllers\CidadeController@listar');
     }
 );

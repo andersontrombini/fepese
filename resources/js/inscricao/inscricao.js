@@ -4,12 +4,15 @@ export default class Inscricao {
     init() {
         this.mask();
         this.validator = new Validations();
-       // this.iniciaTabela();
+        this.iniciaTabela();
+        this.estados();
         this.bind();
+
     }
 
     bind() {
         var self = this;
+        
         //Gravar inscrição do candidato
         $(document).on('submit', "#formulario_inscricao", (ev) => {
             ev.preventDefault();
@@ -27,7 +30,7 @@ export default class Inscricao {
                 url: "/api/pessoa_fisica",
                 type: "POST",
                 data: values,
-                success: function (response) {
+                success: function (data) {
                     $.ajax({
                         url: "/api/inscricao",
                         type: "POST",
@@ -36,8 +39,8 @@ export default class Inscricao {
                             cargo: data.cargo,
                             situacao: 'enviado',
                         },
-                        success: function (response) {
-                            window.location.href = "/cadastro/" + data.pessoa.id;
+                        success: function (data) {
+                            window.location.href = "cadastro/" + data.pessoa_fisica_id;
 
                         },
                         error: function (response) {
@@ -55,14 +58,26 @@ export default class Inscricao {
 
         //insere opções no select de cidades de acordo com estado
         $(document).on("change", "#estado_id", (ev) => {
-            var estados = $(ev.currentTarget).find(":selected").data("estados");
-            $("#cidade_id").empty();
-            $("#cidade_id").prop('disabled',false);
-            $("#cidade_id").append(`<option value="" selected disabled>Selecione...</option>`);
-
-            $.each(estados.cidades, (index, value) => {
-                $("#cidade_id").append(`<option value="${value.cidade_id}">${value.nome}</option>`);
+            var estadoId = $(ev.currentTarget).find(":selected").val();
+            $.ajax({
+                url: "/api/cidades/" + estadoId,
+                type: "GET",
+    
+                success: function (response) {
+                    $("#cidade_id").empty();
+                    $("#cidade_id").prop('disabled', false);
+                    $("#cidade_id").append(`<option value="" selected disabled>Selecione...</option>`);
+                    $.each(response, (index, value) => {
+                        $("#cidade_id").append(`<option value="${value.cidade_id}">${value.nome}</option>`);
+                    });
+    
+                },
+                error: function (response) {
+                    let erros = response.responseJSON.errors;
+                    self.validator.validaRetornoApi(erros);
+                }
             });
+
         });
 
         //campo nome iniciar palavras com letra maiúscula
@@ -84,17 +99,41 @@ export default class Inscricao {
         return palavras.join(' ');
     }
 
-    mask(){
+    mask() {
         $("#nome").mask("#", {
             maxlength: false,
             translation: {
-                '#': {pattern: /[A-zÀ-ÿ\s]/, recursive: true}
+                '#': { pattern: /[A-zÀ-ÿ\s]/, recursive: true }
             }
         });
         $('#cpf').mask('000.000.000-00', { reverse: true });
     }
 
-    iniciaTabela(){
-        $('#tabela_inscricoes').dataTable();
+    iniciaTabela() {
+        $('.tabela_inscricoes').DataTable({
+        	"language": {
+                "lengthMenu": "Mostrando _MENU_ registros por página",
+                "zeroRecords": "Nada encontrado",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro disponível",
+                "infoFiltered": "(filtrado de _MAX_ registros no total)"
+            }
+        });
+    }
+
+    estados() {
+        $.ajax({
+            url: "/api/estados",
+            type: "GET",
+            success: function (response) {
+                $.each(response, (index, value) => {
+                    $("#estado_id").append(`<option value="${value.estado_id}">${value.nome}</option>`);
+                });
+            },
+            error: function (response) {
+                let erros = response.responseJSON.errors;
+                self.validator.validaRetornoApi(erros);
+            }
+        });
     }
 }

@@ -2133,13 +2133,15 @@ var Inscricao = /*#__PURE__*/function () {
     value: function init() {
       this.mask();
       this.validator = new _validations__WEBPACK_IMPORTED_MODULE_0__["default"]();
-      // this.iniciaTabela();
+      this.iniciaTabela();
+      this.estados();
       this.bind();
     }
   }, {
     key: "bind",
     value: function bind() {
       var self = this;
+
       //Gravar inscrição do candidato
       $(document).on('submit', "#formulario_inscricao", function (ev) {
         ev.preventDefault();
@@ -2156,7 +2158,7 @@ var Inscricao = /*#__PURE__*/function () {
           url: "/api/pessoa_fisica",
           type: "POST",
           data: values,
-          success: function success(response) {
+          success: function success(data) {
             $.ajax({
               url: "/api/inscricao",
               type: "POST",
@@ -2165,8 +2167,8 @@ var Inscricao = /*#__PURE__*/function () {
                 cargo: data.cargo,
                 situacao: 'enviado'
               },
-              success: function success(response) {
-                window.location.href = "/cadastro/" + data.pessoa.id;
+              success: function success(data) {
+                window.location.href = "cadastro/" + data.pessoa_fisica_id;
               },
               error: function error(response) {
                 var erros = response.responseJSON.errors;
@@ -2183,12 +2185,22 @@ var Inscricao = /*#__PURE__*/function () {
 
       //insere opções no select de cidades de acordo com estado
       $(document).on("change", "#estado_id", function (ev) {
-        var estados = $(ev.currentTarget).find(":selected").data("estados");
-        $("#cidade_id").empty();
-        $("#cidade_id").prop('disabled', false);
-        $("#cidade_id").append("<option value=\"\" selected disabled>Selecione...</option>");
-        $.each(estados.cidades, function (index, value) {
-          $("#cidade_id").append("<option value=\"".concat(value.cidade_id, "\">").concat(value.nome, "</option>"));
+        var estadoId = $(ev.currentTarget).find(":selected").val();
+        $.ajax({
+          url: "/api/cidades/" + estadoId,
+          type: "GET",
+          success: function success(response) {
+            $("#cidade_id").empty();
+            $("#cidade_id").prop('disabled', false);
+            $("#cidade_id").append("<option value=\"\" selected disabled>Selecione...</option>");
+            $.each(response, function (index, value) {
+              $("#cidade_id").append("<option value=\"".concat(value.cidade_id, "\">").concat(value.nome, "</option>"));
+            });
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            self.validator.validaRetornoApi(erros);
+          }
         });
       });
 
@@ -2227,7 +2239,32 @@ var Inscricao = /*#__PURE__*/function () {
   }, {
     key: "iniciaTabela",
     value: function iniciaTabela() {
-      $('#tabela_inscricoes').dataTable();
+      $('.tabela_inscricoes').DataTable({
+        "language": {
+          "lengthMenu": "Mostrando _MENU_ registros por página",
+          "zeroRecords": "Nada encontrado",
+          "info": "Mostrando página _PAGE_ de _PAGES_",
+          "infoEmpty": "Nenhum registro disponível",
+          "infoFiltered": "(filtrado de _MAX_ registros no total)"
+        }
+      });
+    }
+  }, {
+    key: "estados",
+    value: function estados() {
+      $.ajax({
+        url: "/api/estados",
+        type: "GET",
+        success: function success(response) {
+          $.each(response, function (index, value) {
+            $("#estado_id").append("<option value=\"".concat(value.estado_id, "\">").concat(value.nome, "</option>"));
+          });
+        },
+        error: function error(response) {
+          var erros = response.responseJSON.errors;
+          self.validator.validaRetornoApi(erros);
+        }
+      });
     }
   }]);
   return Inscricao;

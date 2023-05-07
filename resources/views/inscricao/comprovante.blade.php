@@ -3,7 +3,7 @@
 @section('titulo', 'Inscrição')
 
 @section('conteudo')
-    <div class="container w-75 p-5">
+    <div class="container pt-3">
         <div class="text-center m-4 pb-2">
             <h2 class="title">Concurso Público para Desenvolvedor de Software</h2>
         </div>
@@ -37,12 +37,12 @@
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <label for="nome" class="form-label">* Nome completo</label>
+                    <label for="nome" class="form-label">Nome completo</label>
                     <input disabled type="text" class="form-control" id="nome" name="nome"
                         value="{{ isset($pessoa) ? $pessoa->nome : '' }}">
                 </div>
                 <div class="col">
-                    <label for="cpf" class="form-label">* CPF</label>
+                    <label for="cpf" class="form-label">CPF</label>
                     <input disabled type="text" class="form-control" id="cpf" name="cpf"
                         value="{{ isset($pessoa)
                             ? ($cpf_formatado =
@@ -58,7 +58,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col-6">
-                    <label for="endereco" class="form-label">* Endereço</label>
+                    <label for="endereco" class="form-label">Endereço</label>
                     <input disabled type="text" class="form-control" id="endereco" name="endereco"
                         value="{{ isset($pessoa) ? $pessoa->endereco : '' }}">
                 </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col-6">
-                    <label for="cargo" class="form-label">* Cargo</label>
+                    <label for="cargo" class="form-label">Cargo</label>
                     <input disabled type="text" class="form-control" id="cargo" name="cargo"
                         value="{{ isset($pessoa) ? $pessoa->inscricao->cargo : '' }}">
                 </div>

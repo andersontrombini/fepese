@@ -3,7 +3,7 @@
 @section('titulo', 'Inscrição')
 
 @section('conteudo')
-    <div class="container w-75 p-5">
+    <div class="container pt-3">
         <div class="text-center m-4 pb-2">
             <h2 class="title">Concurso Público para Desenvolvedor de Software</h2>
         </div>
@@ -36,10 +36,10 @@
                     <label for="estado_id" class="form-label">* Estado</label>
                     <select class="form-control" name="estado_id" id="estado_id">
                         <option value=""selected disabled>Selecione</option>
-                        @foreach ($estados as $estado)
+                        {{-- @foreach ($estados as $estado)
                             <option data-estados="{{ $estado }}" value="{{ $estado->estado_id }}">{{ $estado->nome }}
                             </option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                     <div class="estado_id-feedback clear validacao-form text-danger d-none"></div>
                 </div>

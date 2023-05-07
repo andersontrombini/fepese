@@ -28,7 +28,9 @@ class InscricaoController extends Controller
 	    $inscricao->cargo = $request->cargo;
 	    $inscricao->situacao = $request->situacao;
 	    
-        return json_encode(Inscricao::createInscricao($inscricao));
+        Inscricao::createInscricao($inscricao);
+        
+        return response()->json($inscricao);
     }
     
     public function update(Request $request)

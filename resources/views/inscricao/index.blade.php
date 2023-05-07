@@ -3,7 +3,7 @@
 @section('titulo', 'Inscrição')
 
 @section('conteudo')
-    <div class="container w-75 p-5">
+    <div class="container pt-3">
         <div class="text-center m-4 pb-2">
             <h2 class="title">Concurso Público para Desenvolvedor de Software</h2>
         </div>
