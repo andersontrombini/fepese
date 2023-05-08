@@ -98,6 +98,7 @@ export default class Inscricao {
                 success: function (response) {
                     $('#resultado').html(response);
                     $("#cpf_consulta").val('');
+                    $("#impressao").removeClass('d-none');
                 },
                 error: function (response) {
                     let erro = `

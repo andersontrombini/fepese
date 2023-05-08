@@ -14,6 +14,11 @@ body {
     color: #fff !important;
 }
 
+.button-cancel{
+    background-color: rgb(137, 139, 138) !important;
+    color: #fff !important;
+}
+
 @media print {
     body * {
         visibility: hidden;

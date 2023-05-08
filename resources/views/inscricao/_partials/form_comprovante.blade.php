@@ -57,7 +57,7 @@
             <label for="estado_id" class="form-label">Estado</label>
             <select disabled class="form-control" name="estado_id" id="cidaestado_idde_id">
                 @foreach ($estados as $estado)
-                    <option value="{{ $estado->id }}" {!! isset($pessoa) ? ($pessoa->estado->id == $estado->id ? 'selected' : '') : '' !!}>
+                    <option value="{{ $estado->estado_id }}" {!! isset($pessoa) ? ($pessoa->estado->id == $estado->estado_id ? 'selected' : '') : '' !!}>
                         {{ $estado->nome }}
                     </option>
                 @endforeach

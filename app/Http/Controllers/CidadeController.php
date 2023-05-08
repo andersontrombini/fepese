@@ -37,4 +37,32 @@ class CidadeController extends Controller
         return response()->json($cidade);
     }
 
+    public function update(Request $request, int $id)
+    {
+ 
+        $this->validate(
+            $request,
+            [
+            	'nome' => 'required',
+			    'estado_id' => 'required',
+            ]
+        );
+        
+	    $cidade = Cidade::find($id);
+	    $cidade->nome = $request->nome;
+	    $cidade->estado_id = $request->estado_id;  
+        $cidade->update();
+        
+        return response()->json($cidade);
+    }
+
+    public function destroy(Request $request, int $id)
+    {
+   
+	    $cidade = Cidade::find($id);
+        $cidade->delete();
+        
+        return response()->json($cidade);
+    }
+
 }

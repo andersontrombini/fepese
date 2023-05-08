@@ -15,11 +15,12 @@
             <a href="/cidades/create" class="btn btn-secondary">Nova cidade</a>
         </div>
         <hr>
+        <div class="table-responsive">
             <table class="table table table-striped tabela_cidades">
                 <thead>
                     <tr>
                         <th scope="col">Nome</th>
-                        <th width="15%">Ação</th>
+                        <th width="10%">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,12 +28,17 @@
                         <tr>
                             <th>{{ $cidade->nome }}</th>
                             <td>
-                                <a href="#">Editar</a>
-                                <a href="#">Excluir</a>
+                                <a href="/editar_cidade/<?php echo $cidade->cidade_id; ?>">
+                                    <box-icon type='solid' name='edit' title="editar"></box-icon></a>
+                                <a href="#">
+                                    <box-icon type='solid' name='trash' title="excluir" 
+                                        class="deletar_cidade" data-id={{ $cidade->cidade_id}}></box-icon></a>
                             </td>                       
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div>
     </div>
 @endsection
+

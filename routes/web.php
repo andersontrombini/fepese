@@ -25,4 +25,5 @@ Route::get('/consulta/{cpf}', [CadastroController::class, 'consultar']);
 Route::get('/verificacao/{cpf}', [CadastroController::class, 'consultarCpf']);
 
 Route::resource('/cidades', CadastroCidadeController::class);
+Route::get('/editar_cidade/{id}', [CadastroCidadeController::class, 'edit']);
 Route::resource('/estados', CadastroEstadoController::class);

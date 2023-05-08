@@ -2147,9 +2147,11 @@ var Cidades = /*#__PURE__*/function () {
     key: "bind",
     value: function bind() {
       var self = this;
+
+      //cadastar nova cidade
       $(document).on("submit", "#cadastro_cidades", function (ev) {
+        ev.preventDefault();
         var valor = $(ev.currentTarget).serialize();
-        alert(valor);
         $.ajax({
           url: "/api/cidades",
           type: "POST",
@@ -2162,7 +2164,41 @@ var Cidades = /*#__PURE__*/function () {
             self.validator.validaRetornoApi(erros);
           }
         });
-        ;
+      });
+
+      //editar cidade
+      $(document).on("submit", "#edicao_cidades", function (ev) {
+        ev.preventDefault();
+        var cidadeId = $("#id").val();
+        var valor = $(ev.currentTarget).serialize();
+        $.ajax({
+          url: "/api/cidades/" + cidadeId,
+          type: "PATCH",
+          data: valor,
+          success: function success(response) {
+            window.location.href = "/cidades";
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            self.validator.validaRetornoApi(erros);
+          }
+        });
+      });
+
+      //excluir cidade
+      $('.tabela_cidades tbody').on('click', '.deletar_cidade', function (ev) {
+        var cidadeId = $(ev.currentTarget).data('id');
+        $.ajax({
+          url: "/api/cidades/" + cidadeId,
+          type: "DELETE",
+          success: function success(response) {
+            $(ev.currentTarget).closest('tr').remove();
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            self.validator.validaRetornoApi(erros);
+          }
+        });
       });
     }
   }, {
@@ -2364,6 +2400,7 @@ var Inscricao = /*#__PURE__*/function () {
           success: function success(response) {
             $('#resultado').html(response);
             $("#cpf_consulta").val('');
+            $("#impressao").removeClass('d-none');
           },
           error: function error(response) {
             var erro = "\n                    <div class=\"alert alert-danger text-center mt-4\" role=\"alert\">\n                        CPF n\xE3o encontrado!\n                    </div>";
