@@ -17,7 +17,7 @@
                 <div class="col">
                     <label for="nome" class="form-label">* Nome completo</label>
                     <input type="text" class="form-control teste" id="nome" name="nome"
-                        value="{{ old('nome') }}">
+                        value="{{ old('nome') }}" required>
                     <div class="nome-feedback clear validacao-form text-danger d-none"></div>
                 </div>
                 <div class="col">

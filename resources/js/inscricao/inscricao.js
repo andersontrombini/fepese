@@ -17,6 +17,7 @@ export default class Inscricao {
         $(document).on('submit', "#formulario_inscricao", (ev) => {
             ev.preventDefault();
             let cpf = $("#cpf").val();
+
             let values = {
                 nome: $("#nome").val(),
                 cpf: cpf.replace(/[.-]/g, ''),
@@ -93,16 +94,14 @@ export default class Inscricao {
             ev.preventDefault();
             let valor = $("#cpf_consulta").val();
             $.ajax({
-                url: "/cadastro/" + valor,
+                url: "/consulta/" + valor.replace(/[.-]/g, ''),
                 type: "GET",
-                data: valor.replace(/[.-]/g, ''),
                 success: function (response) {
                    $('#resultado').html(response);
                    $("#cpf_consulta").val('');
                 },
                 error: function (response) {
-                    let erros = response.responseJSON.errors;
-                    self.validator.validaRetornoApi(erros);
+                   alert('teste');
                 }
             });
         });

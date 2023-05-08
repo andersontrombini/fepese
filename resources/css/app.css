@@ -1,0 +1,57 @@
+
+@charset "UTF-8";
+
+body {
+    background-color: rgb(231, 228, 228) !important;
+}
+
+.title {
+    color: blueviolet;
+}
+
+.button-submit {
+    background-color: rgb(31, 201, 74) !important;
+    color: #fff !important;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .no-print,
+    .no-print * {
+        display: none !important;
+    }
+
+    .container,
+    .container * {
+        visibility: visible;
+        margin: auto
+
+    }
+}
+
+#navegacao{
+  background-color: rgb(99, 78, 102) !important;
+}
+
+.nav-link{
+  color: #fff !important;
+  font-weight: bolder !important;
+}
+
+.nav-link:hover{
+  color: #a09696 !important;
+  font-weight: bolder !important;
+}
+
+
+.dataTables_wrapper{
+  background-color: rgb(226, 222, 226);
+  padding: 10px;
+}
+
+.form-label{
+  font-weight: bolder;
+}

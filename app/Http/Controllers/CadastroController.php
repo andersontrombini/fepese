@@ -65,8 +65,7 @@ class CadastroController extends Controller
 
     public function consultar($cpf)
     {
-        $pessoa = PessoaFisica::with('inscricao')->where('cpf', $cpf)->get();
-        return $pessoa;
+        $pessoa = PessoaFisica::with(['inscricao'])->where('cpf', $cpf)->first();
         $cidades = Cidade::all();
         $estados = Estado::all();
         return view('inscricao._partials.form_comprovante', compact('pessoa', 'cidades', 'estados'));

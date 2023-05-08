@@ -21,7 +21,7 @@ Route::get('/cadastro', [CadastroController::class, 'create']);
 Route::get('/cadastro/{id}', [CadastroController::class, 'show']);
 Route::get('/inscricao_candidato', [CadastroController::class, 'ver']);
 
-Route::get('/cadastro/{cpf}', [CadastroController::class, 'consultar']);
+Route::get('/consulta/{cpf}', [CadastroController::class, 'consultar']);
 
 Route::resource('/cidades', CadastroCidadeController::class);
 Route::resource('/estados', CadastroEstadoController::class);

@@ -2356,16 +2356,14 @@ var Inscricao = /*#__PURE__*/function () {
         ev.preventDefault();
         var valor = $("#cpf_consulta").val();
         $.ajax({
-          url: "/cadastro/" + valor,
+          url: "/consulta/" + valor.replace(/[.-]/g, ''),
           type: "GET",
-          data: valor.replace(/[.-]/g, ''),
           success: function success(response) {
             $('#resultado').html(response);
             $("#cpf_consulta").val('');
           },
           error: function error(response) {
-            var erros = response.responseJSON.errors;
-            self.validator.validaRetornoApi(erros);
+            alert('teste');
           }
         });
       });

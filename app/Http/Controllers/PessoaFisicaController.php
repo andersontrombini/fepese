@@ -37,7 +37,7 @@ class PessoaFisicaController extends Controller
 	    $pessoa->cidade_id = $request->cidade_id;
 	    $pessoa->estado_id = $request->estado_id;
         $cargo = $request->cargo;
-	    
+	   
         PessoaFisica::createPessoaFisica($pessoa);
         return response()->json([
             'pessoa' => $pessoa,
