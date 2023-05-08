@@ -30,7 +30,13 @@ $router->group(
 		$router->patch('/inscricao/{id}', '\App\Http\Controllers\InscricaoController@destroy');
 
 		$router->get('/estados', '\App\Http\Controllers\EstadoController@listar');
+
+		$router->post('/estados', '\App\Http\Controllers\EstadoController@store');
+		$router->patch('/estados/{id}', '\App\Http\Controllers\EstadoController@update');
+		$router->delete('/estados/{id}', '\App\Http\Controllers\EstadoController@destroy');
+
 		$router->get('/cidades/{id}', '\App\Http\Controllers\CidadeController@listar');
+
 		$router->post('/cidades', '\App\Http\Controllers\CidadeController@store');
 		$router->patch('/cidades/{id}', '\App\Http\Controllers\CidadeController@update');
 		$router->delete('/cidades/{id}', '\App\Http\Controllers\CidadeController@destroy');

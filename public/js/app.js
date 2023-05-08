@@ -2248,16 +2248,67 @@ var Estados = /*#__PURE__*/function () {
   _createClass(Estados, [{
     key: "init",
     value: function init() {
-      // this.mask();
       this.validator = new _validations__WEBPACK_IMPORTED_MODULE_0__["default"]();
       this.iniciaTabela();
-      // this.estados();
       this.bind();
     }
   }, {
     key: "bind",
     value: function bind() {
       var self = this;
+
+      //Cadastrar estado
+      $(document).on("submit", "#cadastro_estados", function (ev) {
+        ev.preventDefault();
+        var valor = $(ev.currentTarget).serialize();
+        $.ajax({
+          url: "/api/estados",
+          type: "POST",
+          data: valor,
+          success: function success() {
+            window.location.href = "/estados";
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            self.validator.validaRetornoApi(erros);
+          }
+        });
+      });
+
+      //Editar estado
+      $(document).on("submit", "#edicao_estados", function (ev) {
+        ev.preventDefault();
+        var estadoId = $("#id").val();
+        var valor = $(ev.currentTarget).serialize();
+        $.ajax({
+          url: "/api/estados/" + estadoId,
+          type: "PATCH",
+          data: valor,
+          success: function success() {
+            window.location.href = "/estados";
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            self.validator.validaRetornoApi(erros);
+          }
+        });
+      });
+
+      //Excluir estado
+      $('.tabela_estados tbody').on('click', '.deletar_estado', function (ev) {
+        var estadoId = $(ev.currentTarget).data('id');
+        $.ajax({
+          url: "/api/estados/" + estadoId,
+          type: "DELETE",
+          success: function success() {
+            $(ev.currentTarget).closest('tr').remove();
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            alert(erros);
+          }
+        });
+      });
     }
   }, {
     key: "iniciaTabela",
@@ -2270,7 +2321,8 @@ var Estados = /*#__PURE__*/function () {
           "infoEmpty": "Nenhum registro disponível",
           "infoFiltered": "(filtrado de _MAX_ registros no total)"
         },
-        "scrollY": 300
+        "scrollY": 300,
+        "responsive": true
       });
     }
   }]);
@@ -2373,8 +2425,8 @@ var Inscricao = /*#__PURE__*/function () {
             });
           },
           error: function error(response) {
-            var erros = response.responseJSON.errors;
-            self.validator.validaRetornoApi(erros);
+            var erros = response.responseJSON.message;
+            alert(erros);
           }
         });
       });
@@ -2492,8 +2544,8 @@ var Inscricao = /*#__PURE__*/function () {
           });
         },
         error: function error(response) {
-          var erros = response.responseJSON.errors;
-          self.validator.validaRetornoApi(erros);
+          var erros = response.responseJSON.message;
+          alert(erros);
         }
       });
     }

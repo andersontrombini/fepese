@@ -8,13 +8,20 @@ use Illuminate\Http\Request;
 class CidadeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * Retorno listagem para inserção em select-box
+     * de acordo com estado selecionado.
      * @return \Illuminate\Http\Response
      */
     public function listar($id)
     {
         $cidades = Cidade::where('estado_id', $id)->get();
+
+        if(!$cidades){
+            return response()->json([
+                'error' => true,
+                'message' => 'Ocorreu um erro ao listar as cidades.',
+            ],404);
+        }
         return response()->json($cidades);
     }
 

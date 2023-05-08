@@ -70,8 +70,8 @@ export default class Inscricao {
                     });
                 },
                 error: function (response) {
-                    let erros = response.responseJSON.errors;
-                    self.validator.validaRetornoApi(erros);
+                    let erros = response.responseJSON.message;
+                    alert(erros);
                 }
             });
 
@@ -196,8 +196,8 @@ export default class Inscricao {
                 });
             },
             error: function (response) {
-                let erros = response.responseJSON.errors;
-                self.validator.validaRetornoApi(erros);
+                let erros = response.responseJSON.message;
+                alert(erros);
             }
         });
     }
