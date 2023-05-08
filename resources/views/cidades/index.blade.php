@@ -15,6 +15,7 @@
             <a href="/cidades/create" class="btn btn-secondary">Nova cidade</a>
         </div>
         <hr>
+        @if (count($cidades) > 0)
         <div class="table-responsive">
             <table class="table table table-striped tabela_cidades">
                 <thead>
@@ -39,6 +40,12 @@
                 </tbody>
             </table>
         </div>
+        @else
+            <div class="text-center">
+                <span>Nenhuma cidade cadastrada! </span>
+                <a href="/cidades/create">Clique aqui</a> para criar
+            </div>
+        @endif
     </div>
 @endsection
 

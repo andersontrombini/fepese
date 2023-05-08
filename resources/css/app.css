@@ -32,8 +32,8 @@ body {
     .container,
     .container * {
         visibility: visible;
-        margin: auto
-
+        margin: auto;
+        font-size: 12px;
     }
 }
 
@@ -50,7 +50,6 @@ body {
   color: #a09696 !important;
   font-weight: bolder !important;
 }
-
 
 .dataTables_wrapper{
   background-color: rgb(226, 222, 226);

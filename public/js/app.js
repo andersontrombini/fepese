@@ -2476,7 +2476,8 @@ var Inscricao = /*#__PURE__*/function () {
           "infoFiltered": "(filtrado de _MAX_ registros no total)"
         },
         "scrollY": 300,
-        "order": [1, 'asc']
+        "order": [1, 'asc'],
+        "responsive": true
       });
     }
   }, {

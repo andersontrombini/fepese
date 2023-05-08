@@ -13,26 +13,28 @@
         </div>
         <hr>
         @if (count($inscricoes) > 0)
-            <table class="table table table-striped tabela_inscricoes">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Cargo</th>
-                        <th scope="col">Localidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($inscricoes as $incricao)
+            <div class="table-responsive">
+                <table class="table table table-striped tabela_inscricoes">
+                    <thead>
                         <tr>
-                            <th>{{ $incricao->id }}</th>
-                            <td>{{ $incricao->pessoa->nome }}</td>
-                            <td>{{ $incricao->cargo }}</td>
-                            <td>{{ $incricao->pessoa->cidade->nome . '-' . $incricao->pessoa->estado->sigla }}</td>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Cargo</th>
+                            <th scope="col">Localidade</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($inscricoes as $incricao)
+                            <tr>
+                                <th>{{ $incricao->id }}</th>
+                                <td>{{ $incricao->pessoa->nome }}</td>
+                                <td>{{ $incricao->cargo }}</td>
+                                <td>{{ $incricao->pessoa->cidade->nome . '-' . $incricao->pessoa->estado->sigla }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         @else
             <div class="text-center">
                 <span>Nenhuma inscrição realizada! </span>

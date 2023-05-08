@@ -5,12 +5,12 @@
             <input disabled type="text" class="form-control" id="inscricao"
                 value="{{ isset($pessoa) ? $pessoa->inscricao->id : '' }}">
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <label for="situacao" class="form-label">Situação</label>
             <input disabled type="text" class="form-control" id="situacao"
                 value="{{ isset($pessoa) ? $pessoa->inscricao->situacao : '' }}">
         </div>
-        <div class="col-3">
+        <div class="col-4">
             <label for="data" class="form-label">Data Inscrição</label>
             <input disabled type="text" class="form-control" id="data"
                 value="{{ isset($pessoa) ? date('d/m/Y H:i:s', strtotime($pessoa->inscricao->created_at)) : '' }}">
@@ -43,7 +43,7 @@
             <input disabled type="text" class="form-control" id="endereco" name="endereco"
                 value="{{ isset($pessoa) ? $pessoa->endereco : '' }}">
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <label for="cidade_id" class="form-label">Cidade</label>
             <select disabled class="form-control" name="cidade_id" id="cidade_id">
                 @foreach ($cidades as $cidade)
@@ -53,7 +53,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-2">
+        <div class="col-3">
             <label for="estado_id" class="form-label">Estado</label>
             <select disabled class="form-control" name="estado_id" id="cidaestado_idde_id">
                 @foreach ($estados as $estado)
@@ -70,6 +70,7 @@
             <input disabled type="text" class="form-control" id="cargo" name="cargo"
                 value="{{ isset($pessoa) ? $pessoa->inscricao->cargo : '' }}">
         </div>
+        <div class="col-6"></div>
     </div>
     <hr>
 </form>
