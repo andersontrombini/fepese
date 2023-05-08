@@ -19,10 +19,14 @@ class PessoaFisicaController extends Controller
             $request,
             [
                 'nome' => 'required',
-			    'cpf' => 'required|unique:pessoa_fisica,cpf',
+			    'cpf' => 'required|unique:pessoa_fisica,cpf|min:11',
 			    'endereco' => 'required',
 			    'cidade_id' => 'required',
 			    'estado_id' => 'required',
+            ],
+            [
+                'cidade_id.required' => 'O campo cidade é obrigatório',
+                'estado_id.required' => 'O campo estado é obrigatório',
             ]
         );
         

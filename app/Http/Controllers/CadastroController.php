@@ -22,6 +22,11 @@ class CadastroController extends Controller
         return view('inscricao.index', compact('inscricoes'));
     }
 
+    public function ver()
+    {
+        return view('inscricao.consulta');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -56,6 +61,15 @@ class CadastroController extends Controller
         $cidades = Cidade::all();
         $estados = Estado::all();
         return view('inscricao.comprovante', compact('pessoa', 'cidades', 'estados'));
+    }
+
+    public function consultar($cpf)
+    {
+        $pessoa = PessoaFisica::with('inscricao')->where('cpf', $cpf)->get();
+        return $pessoa;
+        $cidades = Cidade::all();
+        $estados = Estado::all();
+        return view('inscricao._partials.form_comprovante', compact('pessoa', 'cidades', 'estados'));
     }
 
     /**

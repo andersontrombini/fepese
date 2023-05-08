@@ -36,10 +36,6 @@
                     <label for="estado_id" class="form-label">* Estado</label>
                     <select class="form-control" name="estado_id" id="estado_id">
                         <option value=""selected disabled>Selecione</option>
-                        {{-- @foreach ($estados as $estado)
-                            <option data-estados="{{ $estado }}" value="{{ $estado->estado_id }}">{{ $estado->nome }}
-                            </option>
-                        @endforeach --}}
                     </select>
                     <div class="estado_id-feedback clear validacao-form text-danger d-none"></div>
                 </div>

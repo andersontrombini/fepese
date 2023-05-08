@@ -10,7 +10,8 @@
         <div class="navbar-nav">
           <a class="nav-link" aria-current="page" href="/">Home</a>
           <a class="nav-link"  href="/cadastro">Cadastre-se</a>
-          <a class="nav-link" href="#">Cidades</a>
+          <a class="nav-link"  href="/inscricao_candidato">Minha inscrição</a>
+          <a class="nav-link" href="/cidades">Cidades</a>
           <a class="nav-link" href="/estados">Estados</a>
         </div>
       </div>

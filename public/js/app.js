@@ -2169,6 +2169,7 @@ var Inscricao = /*#__PURE__*/function () {
               },
               success: function success(data) {
                 window.location.href = "cadastro/" + data.pessoa_fisica_id;
+                toastr.warning('Tivemos um problema ao listar os eventos disponíveis!');
               },
               error: function error(response) {
                 var erros = response.responseJSON.errors;
@@ -2210,6 +2211,26 @@ var Inscricao = /*#__PURE__*/function () {
         var formatarValor = self.iniciaisMaiusculas($('#nome').val());
         $('#nome').val(formatarValor);
       });
+
+      //
+      $(document).on('submit', "#consulta", function (ev) {
+        ev.preventDefault();
+        var valor = $("#cpf_consulta").val();
+        $.ajax({
+          url: "/cadastro/" + valor,
+          type: "GET",
+          data: valor.replace(/[.-]/g, ''),
+          success: function success(response) {
+            $('#resultado').html(response);
+            $("#cpf_consulta").val('');
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            self.validator.validaRetornoApi(erros);
+          }
+        });
+        ;
+      });
     }
   }, {
     key: "iniciaisMaiusculas",
@@ -2235,6 +2256,9 @@ var Inscricao = /*#__PURE__*/function () {
       $('#cpf').mask('000.000.000-00', {
         reverse: true
       });
+      $('#cpf_consulta').mask('000.000.000-00', {
+        reverse: true
+      });
     }
   }, {
     key: "iniciaTabela",
@@ -2246,7 +2270,8 @@ var Inscricao = /*#__PURE__*/function () {
           "info": "Mostrando página _PAGE_ de _PAGES_",
           "infoEmpty": "Nenhum registro disponível",
           "infoFiltered": "(filtrado de _MAX_ registros no total)"
-        }
+        },
+        "scrollY": 300
       });
     }
   }, {

@@ -41,6 +41,7 @@ export default class Inscricao {
                         },
                         success: function (data) {
                             window.location.href = "cadastro/" + data.pessoa_fisica_id;
+                            toastr.warning('Tivemos um problema ao listar os eventos disponíveis!');
 
                         },
                         error: function (response) {
@@ -70,7 +71,6 @@ export default class Inscricao {
                     $.each(response, (index, value) => {
                         $("#cidade_id").append(`<option value="${value.cidade_id}">${value.nome}</option>`);
                     });
-    
                 },
                 error: function (response) {
                     let erros = response.responseJSON.errors;
@@ -86,6 +86,25 @@ export default class Inscricao {
             var formatarValor = self.iniciaisMaiusculas($('#nome').val());
             $('#nome').val(formatarValor);
 
+        });
+
+        //
+        $(document).on('submit', "#consulta", (ev) => {
+            ev.preventDefault();
+            let valor = $("#cpf_consulta").val();
+            $.ajax({
+                url: "/cadastro/" + valor,
+                type: "GET",
+                data: valor.replace(/[.-]/g, ''),
+                success: function (response) {
+                   $('#resultado').html(response);
+                   $("#cpf_consulta").val('');
+                },
+                error: function (response) {
+                    let erros = response.responseJSON.errors;
+                    self.validator.validaRetornoApi(erros);
+                }
+            });;
         });
     }
 
@@ -107,6 +126,7 @@ export default class Inscricao {
             }
         });
         $('#cpf').mask('000.000.000-00', { reverse: true });
+        $('#cpf_consulta').mask('000.000.000-00', { reverse: true });
     }
 
     iniciaTabela() {
@@ -116,8 +136,10 @@ export default class Inscricao {
                 "zeroRecords": "Nada encontrado",
                 "info": "Mostrando página _PAGE_ de _PAGES_",
                 "infoEmpty": "Nenhum registro disponível",
-                "infoFiltered": "(filtrado de _MAX_ registros no total)"
-            }
+                "infoFiltered": "(filtrado de _MAX_ registros no total)",
+            },
+            "scrollY": 300,
+           
         });
     }
 

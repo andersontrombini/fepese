@@ -12,9 +12,20 @@ class EstadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function listar()
+    public function listar(Request $request)
     {
-        $estados = Estado::all();
-        return response()->json($estados);
+        $this->validate(
+            $request,
+            [
+			    'nome' => 'nullable'
+            ]
+        );
+        
+        if(null != $request->nome){
+        	$result = Estado::orderBy('nome')->get();
+        	return $result;
+        }
+
+        return Estado::orderBy('nome')->get();
     }
 }
