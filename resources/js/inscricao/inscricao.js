@@ -104,7 +104,7 @@ export default class Inscricao {
                     let erros = response.responseJSON.errors;
                     self.validator.validaRetornoApi(erros);
                 }
-            });;
+            });
         });
     }
 

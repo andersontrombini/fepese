@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CadastroCidadeController;
 use App\Http\Controllers\CadastroController;
+use App\Http\Controllers\CadastroEstadoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +24,4 @@ Route::get('/inscricao_candidato', [CadastroController::class, 'ver']);
 Route::get('/cadastro/{cpf}', [CadastroController::class, 'consultar']);
 
 Route::resource('/cidades', CadastroCidadeController::class);
+Route::resource('/estados', CadastroEstadoController::class);

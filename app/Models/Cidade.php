@@ -17,4 +17,8 @@ class Cidade extends Model
 	    'estado_id',
         'nome',
 	];
+
+    public static function createCidade(Cidade $cidade){
+    	return $cidade->save();
+    }
 }

@@ -31,5 +31,6 @@ $router->group(
 
 		$router->get('/estados', '\App\Http\Controllers\EstadoController@listar');
 		$router->get('/cidades/{id}', '\App\Http\Controllers\CidadeController@listar');
+		$router->post('/cidades', '\App\Http\Controllers\CidadeController@store');
     }
 );

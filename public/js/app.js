@@ -2063,9 +2063,15 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inscricao_inscricao__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./inscricao/inscricao */ "./resources/js/inscricao/inscricao.js");
+/* harmony import */ var _cidades_cidades__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cidades/cidades */ "./resources/js/cidades/cidades.js");
+/* harmony import */ var _estados_estados__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./estados/estados */ "./resources/js/estados/estados.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+
+
 window.Inscricao = new _inscricao_inscricao__WEBPACK_IMPORTED_MODULE_0__["default"]();
+window.Cidades = new _cidades_cidades__WEBPACK_IMPORTED_MODULE_1__["default"]();
+window.Estados = new _estados_estados__WEBPACK_IMPORTED_MODULE_2__["default"]();
 
 /***/ }),
 
@@ -2102,6 +2108,139 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/cidades/cidades.js":
+/*!*****************************************!*\
+  !*** ./resources/js/cidades/cidades.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Cidades)
+/* harmony export */ });
+/* harmony import */ var _validations__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../validations */ "./resources/js/validations.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+var Cidades = /*#__PURE__*/function () {
+  function Cidades() {
+    _classCallCheck(this, Cidades);
+  }
+  _createClass(Cidades, [{
+    key: "init",
+    value: function init() {
+      // this.mask();
+      this.validator = new _validations__WEBPACK_IMPORTED_MODULE_0__["default"]();
+      this.iniciaTabela();
+      // this.estados();
+      this.bind();
+    }
+  }, {
+    key: "bind",
+    value: function bind() {
+      var self = this;
+      $(document).on("submit", "#cadastro_cidades", function (ev) {
+        var valor = $(ev.currentTarget).serialize();
+        alert(valor);
+        $.ajax({
+          url: "/api/cidades",
+          type: "POST",
+          data: valor,
+          success: function success(response) {
+            window.location.href = "/cidades";
+          },
+          error: function error(response) {
+            var erros = response.responseJSON.errors;
+            self.validator.validaRetornoApi(erros);
+          }
+        });
+        ;
+      });
+    }
+  }, {
+    key: "iniciaTabela",
+    value: function iniciaTabela() {
+      $('.tabela_cidades').DataTable({
+        "language": {
+          "lengthMenu": "Mostrando _MENU_ registros por página",
+          "zeroRecords": "Nada encontrado",
+          "info": "Mostrando página _PAGE_ de _PAGES_",
+          "infoEmpty": "Nenhum registro disponível",
+          "infoFiltered": "(filtrado de _MAX_ registros no total)"
+        },
+        "scrollY": 300
+      });
+    }
+  }]);
+  return Cidades;
+}();
+
+
+/***/ }),
+
+/***/ "./resources/js/estados/estados.js":
+/*!*****************************************!*\
+  !*** ./resources/js/estados/estados.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Estados)
+/* harmony export */ });
+/* harmony import */ var _validations__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../validations */ "./resources/js/validations.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+var Estados = /*#__PURE__*/function () {
+  function Estados() {
+    _classCallCheck(this, Estados);
+  }
+  _createClass(Estados, [{
+    key: "init",
+    value: function init() {
+      // this.mask();
+      this.validator = new _validations__WEBPACK_IMPORTED_MODULE_0__["default"]();
+      this.iniciaTabela();
+      // this.estados();
+      this.bind();
+    }
+  }, {
+    key: "bind",
+    value: function bind() {
+      var self = this;
+    }
+  }, {
+    key: "iniciaTabela",
+    value: function iniciaTabela() {
+      $('.tabela_estados').DataTable({
+        "language": {
+          "lengthMenu": "Mostrando _MENU_ registros por página",
+          "zeroRecords": "Nada encontrado",
+          "info": "Mostrando página _PAGE_ de _PAGES_",
+          "infoEmpty": "Nenhum registro disponível",
+          "infoFiltered": "(filtrado de _MAX_ registros no total)"
+        },
+        "scrollY": 300
+      });
+    }
+  }]);
+  return Estados;
+}();
+
 
 /***/ }),
 
@@ -2229,7 +2368,6 @@ var Inscricao = /*#__PURE__*/function () {
             self.validator.validaRetornoApi(erros);
           }
         });
-        ;
       });
     }
   }, {
