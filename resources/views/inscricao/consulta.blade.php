@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="text-center">
-                <button type="submit" class="button-submit btn mt-2">Consultar</button>
+                <button type="submit" class="button-submit btn mt-2 mb-3">Consultar</button>
             </div>
         <form>
             <div id="resultado"></div>

@@ -56,3 +56,14 @@ body {
   font-weight: bolder;
 }
 
+.retorno_btn{
+  background-color: rgb(180, 187, 182) !important;
+  color: #252424 !important;
+  font-weight: bold !important;
+}
+
+.retorno_btn:hover{
+  background-color: rgb(210, 218, 212) !important;
+  color: #615f5f !important;
+  font-weight: bold !important;
+}

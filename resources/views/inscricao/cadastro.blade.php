@@ -16,32 +16,33 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="nome" class="form-label">* Nome completo</label>
-                    <input type="text" class="form-control teste" id="nome" name="nome"
-                        value="{{ old('nome') }}" required>
-                    <div class="nome-feedback clear validacao-form text-danger d-none"></div>
+                    <input type="text" class="form-control" id="nome" name="nome"
+                        value="{{ old('nome') }}" required pattern=".{3,}" title="Por favor, insira pelo menos 3 caracteres.">
+                    <div class="nome-feedback clear validacao-form text-danger d-none"></div>        
                 </div>
                 <div class="col">
                     <label for="cpf" class="form-label">* CPF</label>
-                    <input type="text" class="form-control" id="cpf" name="cpf">
+                    <input type="text" class="form-control" id="cpf" name="cpf" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required
+                    title="Por favor, o campo CPF precisa estar no formato correto do documento" placeholder="___.___.___-__">
                     <div class="cpf-feedback clear validacao-form text-danger d-none"></div>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-6">
                     <label for="endereco" class="form-label">* Endereço</label>
-                    <input type="text" class="form-control" id="endereco" name="endereco">
+                    <input type="text" class="form-control" id="endereco" name="endereco" required>
                     <div class="endereco-feedback clear validacao-form text-danger d-none"></div>
                 </div>
                 <div class="col-2">
                     <label for="estado_id" class="form-label">* Estado</label>
-                    <select class="form-control" name="estado_id" id="estado_id">
+                    <select class="form-control" name="estado_id" id="estado_id" required>
                         <option value=""selected disabled>Selecione</option>
                     </select>
                     <div class="estado_id-feedback clear validacao-form text-danger d-none"></div>
                 </div>
                 <div class="col-4">
                     <label for="cidade_id" class="form-label">* Cidade</label>
-                    <select disabled class="form-control" name="cidade_id" id="cidade_id" title="Selecione o estado">
+                    <select disabled class="form-control" name="cidade_id" id="cidade_id" title="Selecione o estado" required>
                         <option value=""selected disabled>Selecione</option>
                     </select>
                     <div class="cidade_id-feedback clear validacao-form text-danger d-none"></div>
@@ -50,7 +51,7 @@
             <div class="row mb-3">
                 <div class="col-6">
                     <label for="cargo" class="form-label">* Cargo</label>
-                    <input type="text" class="form-control" id="cargo" name="cargo">
+                    <input type="text" class="form-control" id="cargo" name="cargo" required>
                 </div>
                 <div class="cargo-feedback clear validacao-form text-danger d-none"></div>
             </div>

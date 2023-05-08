@@ -17,8 +17,8 @@
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Cargo</th>
                         <th scope="col">Nome</th>
+                        <th scope="col">Cargo</th>
                         <th scope="col">Localidade</th>
                     </tr>
                 </thead>
@@ -26,8 +26,8 @@
                     @foreach ($inscricoes as $incricao)
                         <tr>
                             <th>{{ $incricao->id }}</th>
-                            <td>{{ $incricao->cargo }}</td>
                             <td>{{ $incricao->pessoa->nome }}</td>
+                            <td>{{ $incricao->cargo }}</td>
                             <td>{{ $incricao->pessoa->cidade->nome . '-' . $incricao->pessoa->estado->sigla }}</td>
                         </tr>
                     @endforeach

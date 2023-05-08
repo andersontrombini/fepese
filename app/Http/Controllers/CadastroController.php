@@ -65,10 +65,34 @@ class CadastroController extends Controller
 
     public function consultar($cpf)
     {
-        $pessoa = PessoaFisica::with(['inscricao'])->where('cpf', $cpf)->first();
+        $pessoa = PessoaFisica::with('inscricao')->where('cpf', $cpf)->first();
+        if(!$pessoa){
+            return response()->json([
+                'success' => false,
+                'message' => 'Cadastro não encontrado.'
+            ],404);
+        }
         $cidades = Cidade::all();
         $estados = Estado::all();
         return view('inscricao._partials.form_comprovante', compact('pessoa', 'cidades', 'estados'));
+    }
+
+    public function consultarCpf($cpf)
+    {
+        $pessoa = PessoaFisica::where('cpf', $cpf)->first();
+
+        if(!$pessoa){
+            return response()->json([
+                'success' => true,
+                'message' => 'Documento livre para cadastro'
+            ],200);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Cliente já possui cadastro.'
+        ],404);
+    
     }
 
     /**

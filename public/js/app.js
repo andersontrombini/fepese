@@ -2285,7 +2285,7 @@ var Inscricao = /*#__PURE__*/function () {
       $(document).on('submit', "#formulario_inscricao", function (ev) {
         ev.preventDefault();
         var cpf = $("#cpf").val();
-        var values = {
+        var valores = {
           nome: $("#nome").val(),
           cpf: cpf.replace(/[.-]/g, ''),
           endereco: $('#endereco').val(),
@@ -2296,7 +2296,7 @@ var Inscricao = /*#__PURE__*/function () {
         $.ajax({
           url: "/api/pessoa_fisica",
           type: "POST",
-          data: values,
+          data: valores,
           success: function success(data) {
             $.ajax({
               url: "/api/inscricao",
@@ -2307,8 +2307,7 @@ var Inscricao = /*#__PURE__*/function () {
                 situacao: 'enviado'
               },
               success: function success(data) {
-                window.location.href = "cadastro/" + data.pessoa_fisica_id;
-                toastr.warning('Tivemos um problema ao listar os eventos disponíveis!');
+                window.location.href = "/cadastro/" + data.pessoa_fisica_id;
               },
               error: function error(response) {
                 var erros = response.responseJSON.errors;
@@ -2345,13 +2344,17 @@ var Inscricao = /*#__PURE__*/function () {
       });
 
       //campo nome iniciar palavras com letra maiúscula
-      $(document).on("keyup", ".teste", function () {
-        self.mask();
+      $(document).on("keyup", "#nome", function () {
         var formatarValor = self.iniciaisMaiusculas($('#nome').val());
         $('#nome').val(formatarValor);
       });
+      //campo cargo iniciar palavras com letra maiúscula
+      $(document).on("keyup", "#cargo", function () {
+        var formatarValor = self.iniciaisMaiusculas($('#cargo').val());
+        $('#cargo').val(formatarValor);
+      });
 
-      //
+      //retorna a informacao do cadastro para consulta
       $(document).on('submit', "#consulta", function (ev) {
         ev.preventDefault();
         var valor = $("#cpf_consulta").val();
@@ -2363,7 +2366,24 @@ var Inscricao = /*#__PURE__*/function () {
             $("#cpf_consulta").val('');
           },
           error: function error(response) {
-            alert('teste');
+            var erro = "\n                    <div class=\"alert alert-danger text-center mt-4\" role=\"alert\">\n                        CPF n\xE3o encontrado!\n                    </div>";
+            $('#resultado').html(erro);
+          }
+        });
+      });
+
+      //verifica logo após digitar o documento se já possui cadastro
+      $(document).on('blur', "#cpf", function () {
+        $(".cpf-feedback").addClass('d-none');
+        var cpf = $("#cpf").val();
+        $.ajax({
+          url: "/verificacao/" + cpf.replace(/[.-]/g, ''),
+          type: "GET",
+          success: function success(response) {},
+          error: function error(response) {
+            var erro = response.responseJSON.message;
+            $(".cpf-feedback").removeClass('d-none');
+            $(".cpf-feedback").html(erro);
           }
         });
       });
@@ -2372,8 +2392,23 @@ var Inscricao = /*#__PURE__*/function () {
     key: "iniciaisMaiusculas",
     value: function iniciaisMaiusculas(str) {
       var palavras = str.toLowerCase().split(' ');
+      var excecoes = ["de", "da", "do", "dos", "das"];
       for (var i = 0; i < palavras.length; i++) {
-        palavras[i] = palavras[i].charAt(0).toUpperCase() + palavras[i].slice(1);
+        var excecao = false;
+        for (var j = 0; j < excecoes.length; j++) {
+          if (palavras[i] === excecoes[j]) {
+            excecao = true;
+            break;
+          }
+        }
+        if (!excecao) {
+          palavras[i] = palavras[i].charAt(0).toUpperCase() + palavras[i].substring(1);
+          var apostrofoIndex = palavras[i].indexOf("'");
+          if (apostrofoIndex !== -1 && apostrofoIndex < palavras[i].length - 1) {
+            // formata a primeira letra após o apóstrofo
+            palavras[i] = palavras[i].substring(0, apostrofoIndex + 1) + palavras[i].charAt(apostrofoIndex + 1).toUpperCase() + palavras[i].substring(apostrofoIndex + 2);
+          }
+        }
       }
       return palavras.join(' ');
     }
@@ -2384,17 +2419,13 @@ var Inscricao = /*#__PURE__*/function () {
         maxlength: false,
         translation: {
           '#': {
-            pattern: /[A-zÀ-ÿ\s]/,
+            pattern: /[a-zA-ZáéíóúÁÉÍÓÚçÇãÃõÕ\s']+( [a-zA-ZáéíóúÁÉÍÓÚçÇãÃõÕ\s']*([Dd]e|[Dd]a|[Dd]o|[Dd]as|[Dd]os)[a-zA-ZáéíóúÁÉÍÓÚçÇãÃõÕ\s']*)*/,
             recursive: true
           }
         }
       });
-      $('#cpf').mask('000.000.000-00', {
-        reverse: true
-      });
-      $('#cpf_consulta').mask('000.000.000-00', {
-        reverse: true
-      });
+      $('#cpf').mask('000.000.000-00');
+      $('#cpf_consulta').mask('000.000.000-00');
     }
   }, {
     key: "iniciaTabela",
@@ -2407,7 +2438,8 @@ var Inscricao = /*#__PURE__*/function () {
           "infoEmpty": "Nenhum registro disponível",
           "infoFiltered": "(filtrado de _MAX_ registros no total)"
         },
-        "scrollY": 300
+        "scrollY": 300,
+        "order": [1, 'asc']
       });
     }
   }, {
