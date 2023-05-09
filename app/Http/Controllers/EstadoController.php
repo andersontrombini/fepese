@@ -37,18 +37,16 @@ class EstadoController extends Controller
         $this->validate(
             $request,
             [
-			    'nome' => 'required:min2|unique:estado,nome',
-			    'sigla' => 'required|min:2',
-			    'cidade_id' => 'required|numeric',
+			    'nome' => 'required|min:3|unique:estado,nome',
+			    'sigla' => 'required|min:2|max:4',
             ]
         );
         
 	    $estado = new Estado();
 	    $estado->nome = $request->nome;
 	    $estado->sigla = $request->sigla;
-	    $estado->cidade_id = $request->cidade_id;
 	    
-        Estado::createCidade($estado);
+        Estado::createEstado($estado);
         
         return response()->json($estado);
     }
@@ -66,15 +64,13 @@ class EstadoController extends Controller
             $request,
             [
             	'nome' => 'required:min2|unique:estado,nome',
-			    'sigla' => 'required|min:2',
-			    'cidade_id' => 'required|numeric',
+			    'sigla' => 'required|min:2|max:4',
             ]
         );
         
 	    $estado = Estado::find($id);
         $estado->nome = $request->nome;
 	    $estado->sigla = $request->sigla;
-	    $estado->cidade_id = $request->cidade_id; 
         $estado->update();
         
         return response()->json($estado);

@@ -2274,6 +2274,9 @@ var Estados = /*#__PURE__*/function () {
     key: "bind",
     value: function bind() {
       var self = this;
+      $('#sigla').mask('SS').on('input', function () {
+        this.value = this.value.toUpperCase();
+      });
 
       //Cadastrar estado
       $(document).on("submit", "#cadastro_estados", function (ev) {
@@ -2315,20 +2318,32 @@ var Estados = /*#__PURE__*/function () {
       //Excluir estado
       $('.tabela_estados tbody').on('click', '.deletar_estado', function (ev) {
         var estadoId = $(ev.currentTarget).data('id');
-        $.ajax({
-          url: "/api/estados/" + estadoId,
-          type: "DELETE",
-          success: function success() {
+        Swal.fire({
+          icon: 'question',
+          title: "Voc\xEA quer mesmo excluir este estado?",
+          confirmButtonText: 'Excluir',
+          focusConfirm: false,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar"
+        }).then(function (result) {
+          if (result.isConfirmed) {
             $(ev.currentTarget).closest('tr').remove();
-          },
-          error: function error(response) {
-            var erros = response.responseJSON.message;
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: erros,
-              confirmButtonText: 'Ok',
-              showCancelButton: false
+            $.ajax({
+              url: "/api/estados/" + estadoId,
+              type: "DELETE",
+              success: function success() {
+                window.location.href = "/estados";
+              },
+              error: function error(response) {
+                var erros = response.responseJSON.message;
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: erros,
+                  confirmButtonText: 'Ok',
+                  showCancelButton: false
+                });
+              }
             });
           }
         });

@@ -59,10 +59,9 @@ class CadastroEstadoController extends Controller
      */
     public function edit($id)
     {
-        $cidade = Cidade::find($id);
-        $estados = Estado::all();
+        $estado = Estado::find($id);
 
-        return view('estados.edit', compact('cidade', 'estados'));
+        return view('estados.edit', compact('estado'));
     }
 
     /**

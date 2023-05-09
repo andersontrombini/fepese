@@ -13,8 +13,8 @@
             <h4>Editar estado</h4>
         </div>
         <hr>
-        <form id="edicao_cidades">
-            @include('cidades._partials.form', ['estados' => $estados])
+        <form id="edicao_estados">
+            @include('estados._partials.form')
             <hr>
             <div class="text-end">
                 <a href="/estados" class="button-cancel btn mt-2">Cancelar</a>

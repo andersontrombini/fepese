@@ -17,7 +17,7 @@
         <hr>
         @if (count($estados) > 0)
         <div class="table-responsive">
-            <table class="table table table-striped tabela_cidades">
+            <table class="table table table-striped tabela_estados">
                 <thead>
                     <tr>
                         <th scope="col">Nome</th>
@@ -29,7 +29,7 @@
                         <tr>
                             <th>{{ $estado->nome }}</th>
                             <td>
-                                <a href="/editar_cidade/<?php echo $estado->estado_id; ?>">
+                                <a href="/editar_estado/<?php echo $estado->estado_id; ?>">
                                     <box-icon type='solid' name='edit' title="editar"></box-icon></a>
                                 <a href="#">
                                     <box-icon type='solid' name='trash' title="excluir" 

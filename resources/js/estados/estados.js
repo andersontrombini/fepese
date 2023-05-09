@@ -11,6 +11,10 @@ export default class Estados {
     bind() {
         var self = this;
 
+        $('#sigla').mask('SS').on('input', function(){
+            this.value = this.value.toUpperCase();
+        });
+
         //Cadastrar estado
         $(document).on("submit", "#cadastro_estados", (ev) => {
             ev.preventDefault();
@@ -53,21 +57,34 @@ export default class Estados {
         //Excluir estado
         $('.tabela_estados tbody').on('click', '.deletar_estado', function (ev) {
             let estadoId = $(ev.currentTarget).data('id');
-            $.ajax({
-                url: "/api/estados/" + estadoId,
-                type: "DELETE",
-                success: function () {
+            Swal.fire({
+                icon: 'question',
+                title: `Você quer mesmo excluir este estado?`,
+                confirmButtonText: 'Excluir',
+                focusConfirm: false,
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
                     $(ev.currentTarget).closest('tr').remove();
-                },
-                error: function (response) {
-                    let erros = response.responseJSON.message;
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: erros,
-                        confirmButtonText: 'Ok',
-                        showCancelButton: false,
-                    })
+
+                    $.ajax({
+                        url: "/api/estados/" + estadoId,
+                        type: "DELETE",
+                        success: function () {
+                            window.location.href = "/estados";
+                        },
+                        error: function (response) {
+                            let erros = response.responseJSON.message;
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: erros,
+                                confirmButtonText: 'Ok',
+                                showCancelButton: false,
+                            })
+                        }
+                    });
                 }
             });
         });
