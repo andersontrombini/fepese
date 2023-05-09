@@ -19,7 +19,7 @@ class PessoaFisicaController extends Controller
             $request,
             [
                 'nome' => 'required',
-			    'cpf' => 'required|unique:pessoa_fisica,cpf|min:11',
+			    'cpf' => 'required|unique:pessoa_fisica,cpf|min:11|cpf',
 			    'endereco' => 'required',
 			    'cidade_id' => 'required',
 			    'estado_id' => 'required',

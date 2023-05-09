@@ -51,22 +51,22 @@ class CadastroController extends Controller
     }
 
     /**
-     * Exibe dados do candidato na consulta de inscrição.
+     * Exibe dados do candidato apos cadastro
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        // $pessoa = PessoaFisica::with('inscricao')->find($id);
-        // if(!$pessoa){
-        //     return response()->json([
-        //         'error' => true,
-        //         'message' => 'Cadastro encontrado.',
-        //     ], 404);
-        // }
-        // $cidades = Cidade::all();
-        // $estados = Estado::all();
-        // return view('inscricao.comprovante', compact('pessoa', 'cidades', 'estados'));
+        $pessoa = PessoaFisica::with('inscricao')->find($id);
+        if(!$pessoa){
+            return response()->json([
+                'error' => true,
+                'message' => 'Cadastro encontrado.',
+            ], 404);
+        }
+        $cidades = Cidade::all();
+        $estados = Estado::all();
+        return view('inscricao.comprovante', compact('pessoa', 'cidades', 'estados'));
     }
 
     /**
