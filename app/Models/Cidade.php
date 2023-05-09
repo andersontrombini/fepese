@@ -13,13 +13,14 @@ class Cidade extends Model
     protected $table = 'cidade';
 
     protected $primaryKey = 'cidade_id';
-	
-	protected $fillable = [
-	    'estado_id',
-        'nome',
-	];
 
-    public static function createCidade(Cidade $cidade){
-    	return $cidade->save();
+    protected $fillable = [
+        'estado_id',
+        'nome',
+    ];
+
+    public static function createCidade(Cidade $cidade)
+    {
+        return $cidade->save();
     }
 }

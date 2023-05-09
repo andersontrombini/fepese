@@ -19,12 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CadastroController::class, 'index']);
 Route::get('/cadastro', [CadastroController::class, 'create']);
 Route::get('/cadastro/{id}', [CadastroController::class, 'show']);
-Route::get('/inscricao_candidato', [CadastroController::class, 'ver']);
 
+Route::get('/inscricao_candidato', [CadastroController::class, 'ver']);
 Route::get('/consulta/{cpf}', [CadastroController::class, 'consultar']);
 Route::get('/verificacao/{cpf}', [CadastroController::class, 'consultarCpf']);
-
-
 
 Route::resource('/cidades', CadastroCidadeController::class);
 Route::get('/editar_cidade/{id}', [CadastroCidadeController::class, 'edit']);

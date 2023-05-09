@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cidade;
 use App\Models\Estado;
-use Illuminate\Http\Request;
 
 class CadastroEstadoController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     *listagem de estados
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $estados = Estado::all();
+        if(!$estados){
+            return response()->json([
+                'error' => true,
+                'message' => 'Nenhum estado encontrado.'
+            ]);
+        }
         return view('estados.index', compact('estados'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Cadastro de estado.
      *
      * @return \Illuminate\Http\Response
      */
@@ -30,29 +33,7 @@ class CadastroEstadoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Edição de estado
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -62,28 +43,5 @@ class CadastroEstadoController extends Controller
         $estado = Estado::find($id);
 
         return view('estados.edit', compact('estado'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

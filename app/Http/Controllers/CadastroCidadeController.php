@@ -9,18 +9,23 @@ use Illuminate\Http\Request;
 class CadastroCidadeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * listagem de cidades
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $cidades = Cidade::all();
+        if(!$cidades){
+            return response()->json([
+                'error' => true,
+                'message' => 'Nenhuma cidade encontrada.'
+            ]);
+        }
         return view('cidades.index', compact('cidades'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Cadastro de cidade.
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,65 +36,24 @@ class CadastroCidadeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // $cidades = Cidade::create($request->input());
-
-        // return response()->json($cidades);
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Edição de cidade
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $formMode = 'edit';
         $cidade = Cidade::find($id);
+        if(!$cidade){
+            return response()->json([
+                'error' => true,
+                'message' => 'Cidade não encontrada.'
+            ]);
+        }
         $estados = Estado::all();
+        $formMode = 'edit';
 
         return view('cidades.edit', compact('cidade', 'estados', 'formMode'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
+
