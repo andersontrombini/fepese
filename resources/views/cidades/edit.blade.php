@@ -14,7 +14,10 @@
         </div>
         <hr>
         <form id="edicao_cidades">
-            @include('cidades._partials.form', ['estados' => $estados])
+            @include('cidades._partials.form', [
+                'estados' => $estados,
+                'formMode' => $formMode,
+            ])
             <hr>
             <div class="text-end">
                 <a href="/cidades" class="button-cancel btn mt-2">Cancelar</a>

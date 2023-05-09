@@ -12,7 +12,7 @@ export default class Estados {
         var self = this;
 
         //Cadastrar estado
-        $(document).on("submit","#cadastro_estados", (ev)=> {
+        $(document).on("submit", "#cadastro_estados", (ev) => {
             ev.preventDefault();
             let valor = $(ev.currentTarget).serialize();
 
@@ -31,7 +31,7 @@ export default class Estados {
         });
 
         //Editar estado
-        $(document).on("submit","#edicao_estados", (ev)=> {
+        $(document).on("submit", "#edicao_estados", (ev) => {
             ev.preventDefault();
             let estadoId = $("#id").val();
             let valor = $(ev.currentTarget).serialize();
@@ -60,8 +60,14 @@ export default class Estados {
                     $(ev.currentTarget).closest('tr').remove();
                 },
                 error: function (response) {
-                    let erros = response.responseJSON.errors;
-                    alert(erros);
+                    let erros = response.responseJSON.message;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: erros,
+                        confirmButtonText: 'Ok',
+                        showCancelButton: false,
+                    })
                 }
             });
         });
@@ -69,7 +75,7 @@ export default class Estados {
 
     iniciaTabela() {
         $('.tabela_estados').DataTable({
-        	"language": {
+            "language": {
                 "lengthMenu": "Mostrando _MENU_ registros por página",
                 "zeroRecords": "Nada encontrado",
                 "info": "Mostrando página _PAGE_ de _PAGES_",

@@ -2,10 +2,10 @@ import Validations from "../validations";
 
 export default class Cidades {
     init() {
-       // this.mask();
+        // this.mask();
         this.validator = new Validations();
         this.iniciaTabela();
-       // this.estados();
+        // this.estados();
         this.bind();
 
     }
@@ -14,7 +14,7 @@ export default class Cidades {
         var self = this;
 
         //cadastar nova cidade
-        $(document).on("submit","#cadastro_cidades", (ev)=> {
+        $(document).on("submit", "#cadastro_cidades", (ev) => {
             ev.preventDefault();
             let valor = $(ev.currentTarget).serialize();
 
@@ -33,7 +33,7 @@ export default class Cidades {
         });
 
         //editar cidade
-        $(document).on("submit","#edicao_cidades", (ev)=> {
+        $(document).on("submit", "#edicao_cidades", (ev) => {
             ev.preventDefault();
             let cidadeId = $("#id").val();
             let valor = $(ev.currentTarget).serialize();
@@ -42,7 +42,7 @@ export default class Cidades {
                 url: "/api/cidades/" + cidadeId,
                 type: "PATCH",
                 data: valor,
-                success: function (response) {
+                success: function () {
                     window.location.href = "/cidades";
                 },
                 error: function (response) {
@@ -55,15 +55,34 @@ export default class Cidades {
         //excluir cidade
         $('.tabela_cidades tbody').on('click', '.deletar_cidade', function (ev) {
             let cidadeId = $(ev.currentTarget).data('id');
-            $.ajax({
-                url: "/api/cidades/" + cidadeId,
-                type: "DELETE",
-                success: function (response) {
+            Swal.fire({
+                icon: 'question',
+                title: `Você quer mesmo excluir esta cidade?`,
+                confirmButtonText: 'Excluir',
+                focusConfirm: false,
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
                     $(ev.currentTarget).closest('tr').remove();
-                },
-                error: function (response) {
-                    let erros = response.responseJSON.errors;
-                    self.validator.validaRetornoApi(erros);
+
+                    $.ajax({
+                        url: "/api/cidades/" + cidadeId,
+                        type: "DELETE",
+                        success: function () {
+                            window.location.href = "/cidades";
+                        },
+                        error: function (response) {
+                            let erros = response.responseJSON.message;
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: erros,
+                                confirmButtonText: 'Ok',
+                                showCancelButton: false,
+                            })
+                        }
+                    });
                 }
             });
         });
@@ -71,7 +90,7 @@ export default class Cidades {
 
     iniciaTabela() {
         $('.tabela_cidades').DataTable({
-        	"language": {
+            "language": {
                 "lengthMenu": "Mostrando _MENU_ registros por página",
                 "zeroRecords": "Nada encontrado",
                 "info": "Mostrando página _PAGE_ de _PAGES_",
@@ -79,7 +98,7 @@ export default class Cidades {
                 "infoFiltered": "(filtrado de _MAX_ registros no total)",
             },
             "scrollY": 300,
-           
+
         });
     }
 }

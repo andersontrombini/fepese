@@ -71,7 +71,13 @@ export default class Inscricao {
                 },
                 error: function (response) {
                     let erros = response.responseJSON.message;
-                    alert(erros);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: erros,
+                        confirmButtonText: 'Ok',
+                        showCancelButton: false,
+                    })
                 }
             });
 
@@ -197,7 +203,13 @@ export default class Inscricao {
             },
             error: function (response) {
                 let erros = response.responseJSON.message;
-                alert(erros);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: erros,
+                    confirmButtonText: 'Ok',
+                    showCancelButton: false,
+                })
             }
         });
     }

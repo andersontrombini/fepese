@@ -2175,7 +2175,7 @@ var Cidades = /*#__PURE__*/function () {
           url: "/api/cidades/" + cidadeId,
           type: "PATCH",
           data: valor,
-          success: function success(response) {
+          success: function success() {
             window.location.href = "/cidades";
           },
           error: function error(response) {
@@ -2188,15 +2188,33 @@ var Cidades = /*#__PURE__*/function () {
       //excluir cidade
       $('.tabela_cidades tbody').on('click', '.deletar_cidade', function (ev) {
         var cidadeId = $(ev.currentTarget).data('id');
-        $.ajax({
-          url: "/api/cidades/" + cidadeId,
-          type: "DELETE",
-          success: function success(response) {
+        Swal.fire({
+          icon: 'question',
+          title: "Voc\xEA quer mesmo excluir esta cidade?",
+          confirmButtonText: 'Excluir',
+          focusConfirm: false,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar"
+        }).then(function (result) {
+          if (result.isConfirmed) {
             $(ev.currentTarget).closest('tr').remove();
-          },
-          error: function error(response) {
-            var erros = response.responseJSON.errors;
-            self.validator.validaRetornoApi(erros);
+            $.ajax({
+              url: "/api/cidades/" + cidadeId,
+              type: "DELETE",
+              success: function success() {
+                window.location.href = "/cidades";
+              },
+              error: function error(response) {
+                var erros = response.responseJSON.message;
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: erros,
+                  confirmButtonText: 'Ok',
+                  showCancelButton: false
+                });
+              }
+            });
           }
         });
       });
@@ -2304,8 +2322,14 @@ var Estados = /*#__PURE__*/function () {
             $(ev.currentTarget).closest('tr').remove();
           },
           error: function error(response) {
-            var erros = response.responseJSON.errors;
-            alert(erros);
+            var erros = response.responseJSON.message;
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: erros,
+              confirmButtonText: 'Ok',
+              showCancelButton: false
+            });
           }
         });
       });
@@ -2426,7 +2450,13 @@ var Inscricao = /*#__PURE__*/function () {
           },
           error: function error(response) {
             var erros = response.responseJSON.message;
-            alert(erros);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: erros,
+              confirmButtonText: 'Ok',
+              showCancelButton: false
+            });
           }
         });
       });
@@ -2545,7 +2575,13 @@ var Inscricao = /*#__PURE__*/function () {
         },
         error: function error(response) {
           var erros = response.responseJSON.message;
-          alert(erros);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: erros,
+            confirmButtonText: 'Ok',
+            showCancelButton: false
+          });
         }
       });
     }

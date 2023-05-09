@@ -26,8 +26,8 @@ class CadastroCidadeController extends Controller
      */
     public function create()
     {
-        $estados = Estado::all();
-        return view('cidades.cadastro', compact('estados'));
+        $formMode = 'create';
+        return view('cidades.cadastro', compact('formMode'));
     }
 
     /**
@@ -63,10 +63,11 @@ class CadastroCidadeController extends Controller
      */
     public function edit($id)
     {
+        $formMode = 'edit';
         $cidade = Cidade::find($id);
         $estados = Estado::all();
 
-        return view('cidades.edit', compact('cidade', 'estados'));
+        return view('cidades.edit', compact('cidade', 'estados', 'formMode'));
     }
 
     /**

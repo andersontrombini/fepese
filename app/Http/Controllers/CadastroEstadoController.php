@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cidade;
 use App\Models\Estado;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class CadastroEstadoController extends Controller
      */
     public function create()
     {
-        //
+        return view('estados.cadastro');
     }
 
     /**
@@ -58,7 +59,10 @@ class CadastroEstadoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cidade = Cidade::find($id);
+        $estados = Estado::all();
+
+        return view('estados.edit', compact('cidade', 'estados'));
     }
 
     /**

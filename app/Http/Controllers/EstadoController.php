@@ -8,71 +8,100 @@ use Illuminate\Http\Request;
 class EstadoController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * Retorno listagem para inserção em select-box
+     * de estados
      * @return \Illuminate\Http\Response
      */
     public function listar(Request $request)
     {
-        $this->validate(
-            $request,
-            [
-			    'nome' => 'nullable'
-            ]
-        );
-        
-        if(null != $request->nome){
-        	$result = Estado::orderBy('nome')->get();
-        	return $result;
+        $estados = Estado::orderBy('nome')->get();
+
+        if (!$estados) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Ocorreu um erro ao listar os estados.',
+            ], 404);
         }
 
-        return Estado::orderBy('nome')->get();
+        return response()->json($estados);
     }
 
+    /**
+     * Cadastrar novo estado
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $this->validate(
             $request,
             [
-			    'nome' => 'required',
-			    'cidade_id' => 'required',
+			    'nome' => 'required:min2|unique:estado,nome',
+			    'sigla' => 'required|min:2',
+			    'cidade_id' => 'required|numeric',
             ]
         );
         
-	    $cidade = new Estado();
-	    $cidade->nome = $request->nome;
-	    $cidade->estado_id = $request->estado_id;
+	    $estado = new Estado();
+	    $estado->nome = $request->nome;
+	    $estado->sigla = $request->sigla;
+	    $estado->cidade_id = $request->cidade_id;
 	    
-        Estado::createCidade($cidade);
+        Estado::createCidade($estado);
         
-        return response()->json($cidade);
+        return response()->json($estado);
     }
 
+    /**
+     * Atualizar estado
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return void
+     */
     public function update(Request $request, int $id)
     {
- 
         $this->validate(
             $request,
             [
-            	'nome' => 'required',
-			    'estado_id' => 'required',
+            	'nome' => 'required:min2|unique:estado,nome',
+			    'sigla' => 'required|min:2',
+			    'cidade_id' => 'required|numeric',
             ]
         );
         
-	    $cidade = Estado::find($id);
-	    $cidade->nome = $request->nome;
-	    $cidade->estado_id = $request->estado_id;  
-        $cidade->update();
+	    $estado = Estado::find($id);
+        $estado->nome = $request->nome;
+	    $estado->sigla = $request->sigla;
+	    $estado->cidade_id = $request->cidade_id; 
+        $estado->update();
         
-        return response()->json($cidade);
+        return response()->json($estado);
     }
 
-    public function destroy(Request $request, int $id)
+    /**
+     * Excluir estado
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return void
+     */
+    public function destroy(int $id)
     {
-   
-	    $cidade = Estado::find($id);
-        $cidade->delete();
-        
-        return response()->json($cidade);
+        $estado = Estado::find($id);
+
+        if (!$estado) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Ocorreu um erro ao excluir o estado.',
+            ], 404);
+        }
+        $estado->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Estado excluído com sucesso.',
+        ]);
     }
 }

@@ -14,7 +14,7 @@
         </div>
         <hr>
         <form id="cadastro_estados">
-            @include('estados._partials.form', ['estados' => $estados])
+            @include('estados._partials.form')
             <hr>
             <div class="text-end">
                 <button type="submit" class="button-submit btn mt-2">Salvar</button>
