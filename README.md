@@ -1,177 +1,106 @@
-# Teste Desenvolvedor PHP / Laravel / Angular
+# Laravel Product API
 
+Bem-vindo à documentação da API Laravel para gerenciamento de produtos. Esta API permite a realização das operações básicas CRUD (Create, Read, Update, Delete) em produtos.
 
-<span style="color: red; font-weight: bold;">Antes de Iniciar a Codificação:</span>
-<br/>
-<br/>
-<span style="color: #01f;">Leia com atenção as instruções a seguir.</span>
+## Índice
 
-## O que se espera com o teste
+1. [Requisitos](#requisitos)
+2. [Instalação](#instalação)
+3. [Configuração](#configuração)
+4. [Endpoints](#endpoints)
+    - [Listar Produtos](#listar-produtos)
+    - [Detalhes do Produto](#detalhes-do-produto)
+    - [Criar Produto](#criar-produto)
+    - [Atualizar Produto](#atualizar-produto)
+    - [Excluir Produto](#excluir-produto)
+5. [Exemplos de Requisições](#exemplos-de-requisições)
+6. [Considerações Finais](#considerações-finais)
 
-<span style="color: #01f; font-weight: bold;">
-Não precisa ser Jedi nem Super Star das 7 galáxias, nem nada do tipo
-</span>, se conseguir criar um CRUD bem feito tá valendo.
+## Requisitos
 
-O teste tem objetivo de lhe ajudar a demonstrar seus conhecimentos nas tecnologias 
-backend (PHP e/ou Laravel Framework + PHP) e frontend (Angular e/ou HTML + CSS + JS).
+- PHP >= 7.4
+- Composer
+- Laravel >= 8.x
+- Banco de dados MySQL ou SQLite
 
-Este repositório do teste pressupõe que se utilizará o framework Laravel, contudo
-pode ser feito o teste em PHP puro, lembrando-se de aplicar boas práticas aplicáveis.
+## Instalação
 
-O mesmo vale para o framework Angular, caso não conheça o framework deverá utilizar outra tecnologia
-compatível com desenvolvimento frontend WEB (até mesmo HTML + CSS + JS puro sem frameworks). 
+1. Clone este repositório:
+   `bash`
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+Instale as dependências do Composer:
 
+```bash
+Copy code
+composer install
+Copie o arquivo .env.example para .env e configure o banco de dados.
 
-## Configuração do ambiente
+Gere a chave de aplicativo Laravel:
 
-Antes de iniciar o teste recomenda-se configurar o ambiente 
-com as ferramentas básicas para PHP + WEB. 
+```bash
+Copy code
+php artisan key:generate
+Execute as migrações e os seeders:
 
-Se precisar alguma orientação neste sentido podes 
-seguir o tutorial para configuração
-do ambiente de trabalho, disponível em: 
+```bash
+Copy code
+php artisan migrate --seed
+Configuração
+A configuração da API é feita principalmente no arquivo .env. Certifique-se de configurar corretamente o banco de dados, cache e outras configurações necessárias.
 
-[Ubuntu-Laravel-Angular-Environment-Config](https://github.com/DaanKrug/Ubuntu-Laravel-Angular-Environment-Config)
+Endpoints
+Listar Produtos
+Endpoint: GET /api/products
 
-Se você usa outro sistema operacional diferente do Ubuntu, não há problemas, desde que consiga
-ter instaladas as ferramentas/programas listados ali neste tutorial 
-- (NodeJs e NPM não serão necessários caso não vá usar Angular e afins para criar a interface).
+Retorna a lista de todos os produtos.
 
+Detalhes do Produto
+Endpoint: GET /api/products/{id}
 
-## Procedimento para a "entrega" do teste
+Retorna os detalhes de um produto específico com base no ID.
 
-1º - Deve-se realizar o clone deste repositório para a máquina de desenvolvimento.
+Criar Produto
+Endpoint: POST /api/products
 
-2º - Criar um repositório pessoal com o exato conteúdo deste repositório, na branch
-"main" ou "master"
+Cria um novo produto com base nos dados fornecidos no corpo da requisição.
 
-3º - Criar uma nova branch deste repositório para realizar o teste
+Atualizar Produto
+Endpoint: PUT /api/products/{id}
 
-4º - Fazer o commit/pull request desta nova branch com suas alterações
+Atualiza os detalhes de um produto específico com base no ID e nos dados fornecidos no corpo da requisição.
 
-Este procedimento visa facilitar a análise do que foi produzido, e também demonstrará
-que você tem algum domínio da ferramenta de versionamento.
+Excluir Produto
+Endpoint: DELETE /api/products/{id}
 
-Comandos iniciais até o passo 4º:
+Exclui um produto específico com base no ID.
 
-  - // navegar até o diretório
-  - cd meu_diretorio
-  
-  - // clonar o repositório
-  - git clone https://github.com/DaanKrug/concurso-000.git
-  
-  - // ir para o repositório clonado do git
-  - cd concurso-000
-  
-  - // des-vincular com o repositório clonado
-  - git remote remove origin 
-  
-  - // vincular com o seu repositório no github (criar o repositório vazio antes)
-  - git remote add origin <https:/ /github.com/[seu_git_user]/[seu_repositorio].git>
-  
-  - // commitar o código original clonado para a branch main do seu repositório
-  - git push origin main
-  
-  - // criar a nova branch no seu repositório
-  - git checkout -b <feature/nome_sua_branch>
-  
-  - // commitar o código com suas alterações na nova branch de seu repositório
-  - git push origin <feature/nome_sua_branch>
-  
-Efetuar o passo número 4º, conferir se as suas alterações/implemetações
-estão todas na branch <feature/nome_sua_branch>, depois entrar
-em contato com os responsáveis e enviar o link do seu repositório
-<https:/ /github.com/[seu_git_user]/[seu_repositorio]>.
+Exemplos de Requisições
+Aqui estão alguns exemplos de como interagir com a API usando cURL:
 
-Não esquecer de deixar este seu repositório com acesso "public", para ser acessível.
+Listar Produtos:
 
+bash
+Copy code
+curl -X GET http://localhost:8000/api/products
+Detalhes do Produto:
 
-## Instruções
+bash
+Copy code
+curl -X GET http://localhost:8000/api/products/1
+Criar Produto:
 
-Os requisitos do teste, documentação (Print do MER - Modelo Entidade Relacionamento),
-e comandos SQL encontram-se no diretório: requisitos_funcionais_do_teste.
+bash
+Copy code
+curl -X POST -H "Content-Type: application/json" -d '{"name":"Novo Produto","price":19.99,"description":"Descrição do novo produto"}' http://localhost:8000/api/products
+Atualizar Produto:
 
-- Clonar o repositório para a máquina local, de preferência diretamente no
-diretório de execução do apache/PHP (para facilitar), normalmente "/var/www/html" se utilizas Ubuntu
-ou outra variante linux.
+bash
+Copy code
+curl -X PUT -H "Content-Type: application/json" -d '{"name":"Produto Atualizado","price":29.99,"description":"Nova descrição do produto"}' http://localhost:8000/api/products/1
+Excluir Produto:
 
-- Executar o comando "composer install" para instalar os pacotes e dependências
-
-- Renomear o arquivo .env.example para .env
-
-- Editar o arquivo .env para apontar corretamente a conexão com o banco de dados
-	
-		DB_CONNECTION=mysql
-		DB_HOST=127.0.0.1
-		DB_PORT=3306
-		DB_DATABASE=laravel
-		DB_USERNAME=root
-		DB_PASSWORD=123456
-	
-- Importar o arquivo .sql para gerar as tabelas e dados iniciais via PhpMyAdmin.
-
-- O Log de erros estará em /storage/logs, assim que houverem erros no backend (500 e outros).
-
-- Os Models estão em /app/Models.
-
-- Os Controllers estão em /app/Http/Controllers.
-
-- A Configuração das Routes fica em /routes/api.php - (API Rest).
-
-- Importar a colection do postman para testar a API no Postman. Recomenda-se instalar e usar o postman,
-pois irá lhe ajudar a identificar os possíveis problemas com o código
-do backend, e/ou garantir que você está fazendo as chamadas de API REST corretamente.
-
-
-## Objetivos gerais
-
-Desenvolver um formulário para "cadastro em concurso". Será considerado o que tiver sido
-entregue no tempo especificado, ou seja se não conseguir fazer tudo isso não implica em
-desqualificação. DEVE obrigatoriamente utilizar a API REST para comunicar com o backend.
-
-Alguns itens que serão considerados:
-
-- Desenvolver uma interface para o formulário, (Pode ser bem simples em HTML puro + CSS + Javascript),
-devendo atender aos requisitos mencionados no documento "Requisitos.docx". 
-Cada requisito feito deste documento conta pontos.
-
-- Criar os Models/Controllers/Routes para buscar a lista de Estados/Cidades e popular os campos 
-"select box" com os valores retornados. Utilizar javascript para carregar o "select box" de cidades 
-com as cidades pertencentes ao estado que for selecionado. Até pode-se copiar estes dados do banco e deixar
-"hard coded", mas contará menos pontos já que não se cumpriu o requisito completo.
-
-- Validações de campos no frontend: Aplicar Máscaras, Remover Caracteres especiais inválidos,
-limitação de tamanhos.
-
-- Validações de campos no backend: mesmas do frontend.
-
-- Tratamento e prevenção de erros no backend.
-
-- Conformidade com as regras de negócio que estejam contidas no documento de requisitos (leia com atenção).
-
-
-## Pontos extras
-
-Itens opcionais e que devem/podem ser feitos após ter completado os itens anteriores (Faça primeiro
-tudo o que conseguir dos itens anteriores da melhor forma que puder/souber). Aqui você poderá demonstrar suas habilidades/capacidades de forma mais livre/criativa também.
-
-- Desenvolvimento de telas adicionais, por exemplo os CRUD para cadastro de cidades e estados (Juntamente
-com os respectivos endpoints no backend - Routes, Controllers e Models).
-
-- Utilização de Typescript no desenvolvimento da(s) interface(s) (Angular, React, entre outros).
-
-- Elementos de navegação de interface (Router Link, Menus e etc).
-
-- Bom visual de apresentação (alinhamento, estilos e etc).
-
-- Adequar a estrutura do código existente (Laravel) para se aproximar mais do padrão de separação
-de camadas (identificar o que pode ser melhorado).
-
-- Toda e qualquer outra ideia de melhoria que se coloque em prática (Se você tentar e não funcionar
-pode deixar isso no código e vamos trocar uma idéia a respeito - melhor que simplesmente remover e
-ter menos coisas para apresentar).
-
-
-
-
-
+bash
+Copy code
+curl -X DELETE http://localhost:8000/api/products/1
+Considerações Finais
+Esta é uma API simples para CRUD de produtos em Laravel. Sinta-se à vontade para contribuir, relatar problemas ou propor melhorias. Obrigado por usar nossa API!
